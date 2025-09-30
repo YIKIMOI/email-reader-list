@@ -1,0 +1,124 @@
+<form #emailForm="ngForm" (ngSubmit)="send()" novalidate class="card card-body shadow-sm">
+
+  <!-- 发送成功提示 -->
+  <div *ngIf="toastMessage" class="alert alert-success" role="alert">
+    {{ toastMessage }}
+  </div>
+
+  <!-- From -->
+  <div class="mb-3">
+    <label class="form-label">From</label>
+    <input
+      type="email"
+      class="form-control"
+      name="from"
+      [(ngModel)]="email.from"
+      #fromCtrl="ngModel"
+      required
+      email
+      appFocusBg
+      [ngClass]="classes(fromCtrl)"
+      placeholder="your@email.com"
+    />
+    <div class="form-text text-danger" *ngIf="fromCtrl.touched && fromCtrl.errors">
+      <span *ngIf="fromCtrl.errors['required']">From is required.</span>
+      <span *ngIf="fromCtrl.errors['email']">Please enter a valid email.</span>
+    </div>
+  </div>
+
+  <!-- To -->
+  <div class="mb-3">
+    <label class="form-label">To</label>
+    <input
+      type="email"
+      class="form-control"
+      name="to"
+      [(ngModel)]="email.to"
+      #toCtrl="ngModel"
+      required
+      email
+      appFocusBg
+      [ngClass]="classes(toCtrl)"
+      placeholder="receiver@email.com"
+    />
+    <div class="form-text text-danger" *ngIf="toCtrl.touched && toCtrl.errors">
+      <span *ngIf="toCtrl.errors['required']">To is required.</span>
+      <span *ngIf="toCtrl.errors['email']">Please enter a valid email.</span>
+    </div>
+  </div>
+
+  <!-- Subject -->
+  <div class="mb-3">
+    <label class="form-label">Subject</label>
+    <input
+      type="text"
+      class="form-control"
+      name="subject"
+      [(ngModel)]="email.subject"
+      #subjectCtrl="ngModel"
+      required
+      minlength="10"
+      maxlength="50"
+      appFocusBg
+      [ngClass]="classes(subjectCtrl)"
+      placeholder="Between 10 and 50 characters"
+    />
+    <div class="form-text text-danger" *ngIf="subjectCtrl.touched && subjectCtrl.errors">
+      <span *ngIf="subjectCtrl.errors['required']">Subject is required.</span>
+      <span *ngIf="subjectCtrl.errors['minlength']">Minimum 10 characters.</span>
+      <span *ngIf="subjectCtrl.errors['maxlength']">Maximum 50 characters.</span>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="mb-3">
+    <label class="form-label">Body (optional)</label>
+    <textarea
+      class="form-control"
+      name="body"
+      rows="4"
+      [(ngModel)]="email.body"
+      #bodyCtrl="ngModel"
+      appFocusBg
+      [ngClass]="classes(bodyCtrl)"
+      placeholder="Write your message here..."
+    ></textarea>
+  </div>
+
+  <!-- Buttons -->
+  <div class="d-flex gap-2">
+    <button type="submit" class="btn btn-primary" [disabled]="emailForm.invalid">
+      Send
+    </button>
+    <button type="button" class="btn btn-outline-secondary" (click)="reset(emailForm)">
+      Reset
+    </button>
+  </div>
+</form>
+
+<!-- 列表 / 空状态 -->
+<div class="mt-4">
+  <ng-container *ngIf="emails.length > 0; else emptyList">
+    <h2 class="h5 mb-3">Sent Emails</h2>
+    <div class="table-responsive">
+      <table class="table table-striped align-middle">
+        <thead>
+          <tr>
+            <th scope="col">To</th>
+            <th scope="col">Subject</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let e of emails">
+            <td>{{ e.to }}</td>
+            <td>{{ e.subject }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+
+  <ng-template #emptyList>
+    <div class="alert alert-info mb-0">The list of emails is empty</div>
+  </ng-template>
+</div>

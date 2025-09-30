@@ -1,4 +1,4 @@
 # Authors
-Yihuan Ma
+Yihuan Ma;
 Robert Glück
 

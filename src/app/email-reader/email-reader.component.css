@@ -1,0 +1,14 @@
+/* 有效：10px 绿色边框 */
+.valid-border {
+  border-left: 10px solid #88DD77;
+}
+
+/* 无效：10px 黄色边框 */
+.invalid-border {
+  border-left: 10px solid #FFD452;
+}
+
+/* 无效背景红（柔和） */
+.error-bg {
+  background-color: #F6B9BF;
+}
